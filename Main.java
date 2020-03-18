@@ -2,18 +2,19 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    @author DiegoAlvarez 19498
    @author CesarVinicio 19
-   @author Pablo Reyna 19822
-   Ultima modificacion 16/03/2020  
-   Clase Main
+   @author Pablo 19
+   Ultima modificacion 18/03/2020  
+   Clase Tokens
    Interprete de lisp
+   Se uso MVC 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  */
-import java.util.*;
-import java.io.*;
 public class Main {
-    public static void main(String[] args) throws Exception{
-    	Reader reader = new Reader();
-    	// Metodo que llama a las opciones disponibles del interprete
-      reader.opciones();
-    }
+
+	public static void main(String[] args) {
+		// se instancia el controlador y se llama a las opciones 
+		Controlador c = new Controlador();
+		c.opciones();
+	}
+
 }

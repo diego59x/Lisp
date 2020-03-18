@@ -13,13 +13,18 @@ import java.util.ArrayList;
 public interface ICalculadora {
     
 	public double operar(String oper, ArrayList<Double> numeros);
-	
-    /*public int sumar(ArrayList<Double> numeros);
-    
-    public int restar(ArrayList<Double> numeros);
-    
-    public int multiplicar(ArrayList<Double> numeros);
-    
-    public int dividir(ArrayList<Double> numeros);
-    */
+  //pre: se recibe un string que indica la operacion y un arraylist con todos los numeros
+  //post: se retorna el resultado
+	public double sumar( ArrayList<Double> nums );
+  //pre: recibe un arraylist con los numeros a operar
+  //post: retorna el resultado
+  public double restar( ArrayList<Double> nums );
+  //pre: recibe un arraylist con los numeros a operar
+  //post: retorna el resultado
+  public double multiplicar( ArrayList<Double> nums );
+  //pre: recibe un arraylist con los numeros a operar
+  //post: retorna el resultado
+  public double dividir( ArrayList<Double> nums );
+  //pre: recibe un arraylist con los numeros a operar
+  //post: retorna el resultado
 }

@@ -4,7 +4,7 @@
    @author CesarVinicio 16776
    @author Pablo 19
    Ultima modificacion 16/03/2020  
-   Clase Main
+   Clase Calculadora 
    Interprete de lisp
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  */
@@ -15,6 +15,7 @@ public class Calculadora implements ICalculadora{
     
 	public double operar (String operador, ArrayList<Double> numeros){
         double resultado = 0;
+        // Busca cual es el operando ingresado y llama al metodo que recibe todos los numeros
         switch (operador){
             case "+": 
             	resultado = sumar(numeros);
@@ -40,7 +41,9 @@ public class Calculadora implements ICalculadora{
         }
         return resultado;
     }
-    
+    // Operaciones basicas
+    // Sumas, restas, multiplicaciones
+    // divisiones, mayor , menor o igual
     public double sumar( ArrayList<Double> nums ) {
     	double suma = 0;
         if ( nums.size()==1 ) {

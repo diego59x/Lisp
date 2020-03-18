@@ -1,3 +1,13 @@
+/**
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   @author DiegoAlvarez 19498
+   @author CesarVinicio 19
+   @author Pablo 19
+   Ultima modificacion 18/03/2020  
+   Clase Tokens
+   Interprete de lisp
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ */
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,9 +33,7 @@ public class Tokens {
     }
     
     public void addFunction (String token, Object[] func){
-    	//this.token.add(token);
         map.put(token,func);
-        //System.out.println(this.token);
     }
 
     public ArrayList<String> getTokens(){

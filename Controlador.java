@@ -1,20 +1,93 @@
-import java.util.ArrayList;
+/**
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   @author DiegoAlvarez 19498
+   @author CesarVinicio 19
+   @author Pablo 19
+   Ultima modificacion 16/03/2020  
+   Clase controlador
+   Interprete de lisp
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ */
 
-public class Compiler  {
+import java.util.*;
+import java.io.*;
 
-    private String compilado;
-    private String evalToken;
+public class Controlador  {
+    Scanner scan = new Scanner(System.in);
+    private String compilado, evalToken, info = "";
     private Tokens tokens;
     private ArrayList<String> tokenList;
     private ArrayList<String> params;
-    private int cont = 0;
-    private int cont2 = 0;
-        
+    private int cont = 0, cont2 = 0, opcion = 0, opcion1 = 0;
+    private Vista vista = new Vista();
     private LispTree lispTree = new LispTree(null);
 
-    public Compiler() { 
+    // Constructor 
+    public Controlador() { 
       tokens = Tokens.getInstance();
     }
+
+
+    private void leerTxt(String txt){
+        //Se lee el archivo
+        File f = new File(txt);
+        BufferedReader entrada;
+        
+        try {
+             entrada = new BufferedReader(new FileReader(f));
+             while(entrada.ready()){
+                  info += entrada.readLine();
+              }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        vista.operacion(info);
+        compilar(info);
+        // se borra lo ingresado por si se quiere volver 
+        // a llamar al archivo y asi no se sobreescriba la funcion
+        info = "";
+    }
+    public void opciones(){
+        // se inicializa el menu
+        boolean menu = true;
+        while(menu){
+            vista.inicio();
+            int opcion = verificacion();
+            if(opcion == 1){
+                // se llama al metodo que lee el archivo
+                // se pide que ingrese el nombre con la extension .txt
+                leerTxt(scan.nextLine());
+            }else if(opcion == 2){
+                // se llama al metodo que identifica lo ingresado
+                compilar(scan.nextLine());
+            }else{
+                // muestra mensaje de finalizacion
+            vista.salir();
+            menu = false;
+            }
+        }   
+    }
+
+    private Integer verificacion(){
+        // se verifica que la opcion ingresada sea entera
+        // y que este dentro del rango 
+        Boolean pedir = true;
+        while(pedir){
+            String opcion = scan.nextLine();
+            try {
+                opcion1 = Integer.parseInt(opcion);
+                if (opcion1<=3 && opcion1>0) {
+                    pedir = false;
+                } else {
+                    System.out.println("Ingrese un numero dentro del rango");
+                }  
+            } catch (Exception e){
+                System.out.println("Ingrese un numero entero");
+            }
+        }
+        pedir = true;
+        return opcion1;
+    } 
     
     
     protected void compilar(String lispCode){
@@ -35,8 +108,8 @@ public class Compiler  {
             	compilado= lispTree.evalExpression();
             }
         } else compilado= "Error al compilar el código";
-        
-        System.out.println(compilado);
+        // se manda la conclusion de lo realizado a la vista 
+        vista.mensaje(compilado);
     }
     
     private Object insert (String lineCode, LispTree root, int op){
@@ -280,7 +353,7 @@ public class Compiler  {
             e.printStackTrace();
             return "Error al compliar el codigo";
         }
-        return "todo bien";
+        return "Se agrego correctamente";
     }
 
     private String getFuncParams (String lispCode, int contfp){
