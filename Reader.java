@@ -41,7 +41,7 @@ public class Reader {
     	int opcion = verificacion();
     	if(opcion == 1){
     		leerTxt(scan.nextLine());
-    		vista.resultado(algebra());
+    		//vista.resultado(algebra());
     	}else if (opcion == 2){
     		escribir();
     	}else{
@@ -51,7 +51,7 @@ public class Reader {
     public void escribir(){
     	instruccion = scan.nextLine();
     	splitOP(instruccion);
-    	vista.resultado(algebra());
+    	//vista.resultado(algebra());
     }
 	private Integer verificacion(){
 
@@ -86,7 +86,7 @@ public class Reader {
        	}
 
    	}
-   	private Integer algebra(){
+   	/*private Integer algebra(){
    		boolean operador = false;
    		for(int i = 0; i < operacion.length ; i++){
     		operandos.add(miStack.pop());
@@ -144,7 +144,7 @@ public class Reader {
     		}
        	}
     	return total;
-		}
+		}*/
 }
 
 
