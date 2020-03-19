@@ -32,7 +32,7 @@ public class Controlador  {
         //Se lee el archivo
         File f = new File(txt);
         BufferedReader entrada;
-        
+        String exepcion = "";
         try {
              entrada = new BufferedReader(new FileReader(f));
              while(entrada.ready()){
@@ -40,11 +40,10 @@ public class Controlador  {
               }
         }catch (IOException e) {
             e.printStackTrace();
+            exepcion += "\nEl archivo no se encuentra";
         }
         vista.operacion(info);
         compilar(info);
-        // se borra lo ingresado por si se quiere volver 
-        // a llamar al archivo y asi no se sobreescriba la funcion
         info = "";
     }
     public void opciones(){
