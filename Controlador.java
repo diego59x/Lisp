@@ -2,7 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    @author DiegoAlvarez 19498
    @author CesarVinicio 19
-   @author Pablo 19
+   @author Pablo Reyna 19822
    Ultima modificacion 16/03/2020  
    Clase controlador
    Interprete de lisp
@@ -106,7 +106,7 @@ public class Controlador  {
             if (!evalToken.equals("Error")) {
             	compilado= lispTree.evalExpression();
             }
-        } else compilado= "Error al compilar el código";
+        } else compilado= "Error al compilar el cÃ³digo";
         // se manda la conclusion de lo realizado a la vista 
         vista.mensaje(compilado);
     }
@@ -136,7 +136,7 @@ public class Controlador  {
                     if (isNum(lineCode.substring(i+1, i+2))) {
                     	throw new Exception();
                     }else {
-                        //Verificamos aca si es variable o si es un caractér sin sentido
+                        //Verificamos aca si es variable o si es un caractÃ©r sin sentido
                         int i_validacion = i+1;
                         String reserved_key = getToken(lineCode,i_validacion);
                         if (!tokenList.contains(reserved_key)) {

@@ -2,7 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    @author DiegoAlvarez 19498
    @author CesarVinicio 19
-   @author Pablo 19
+   @author Pablo Reyna 19822
    Ultima modificacion 16/03/2020  
    Clase LispTree
    Interprete de lisp
@@ -98,7 +98,7 @@ public class LispTree {
                 }break;
             }
         } catch (Exception e){
-            return "Error al evaluar el código";
+            return "Error al evaluar el cÃ³digo";
         }
         return result;
     }
@@ -140,7 +140,7 @@ public class LispTree {
                 }
             } else throw new Exception();
         }catch (Exception e){
-            return "Error en el código";
+            return "Error en el cÃ³digo";
         }
     }
 

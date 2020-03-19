@@ -2,7 +2,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    @author DiegoAlvarez 19498
    @author CesarVinicio 19
-   @author Pablo 19
+   @author Pablo Reyna 19822
    Ultima modificacion 18/03/2020  
    Clase Tokens
    Interprete de lisp
@@ -29,11 +29,11 @@ public class Tokens {
     }
 
     public void addToken(String newToken){
-        token.add(newToken);
+        token.add(newToken.toLowerCase());
     }
     
     public void addFunction (String token, Object[] func){
-        map.put(token,func);
+        map.put(token.toLowerCase(),func);
     }
 
     public ArrayList<String> getTokens(){
@@ -41,11 +41,11 @@ public class Tokens {
     }
     
     public Object[] getFunciton (String token){
-        return map.get(token);
+        return map.get(token.toLowerCase());
     }
 
     public Boolean tokenExists(String token){
-        if (token.contains(token)) {
+        if (token.contains(token.toLowerCase())) {
         	return true;
         }else {
         	return false;
@@ -53,7 +53,7 @@ public class Tokens {
     }
 
     public Boolean functionExists(String token){
-        if (map.containsKey(token)) {
+        if (map.containsKey(token.toLowerCase())) {
         	return true;
         }else {
         	return false;
