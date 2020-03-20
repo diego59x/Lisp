@@ -1,11 +1,11 @@
 /**
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    @author DiegoAlvarez 19498
-   @author CesarVinicio 19
+   @author CesarVinicio 16776
    @author Pablo Reyna 19822
    Ultima modificacion 16/03/2020  
    Clase LispTree
-   Interprete de lisp
+   Clase para ejecutar las funciones de Lisp 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  */
 import java.util.ArrayList;
@@ -86,21 +86,47 @@ public class LispTree {
                     }
                     
                     int j=0;
+                    String sObjParams = "";
                     for (String a: parametos) {
-                        for (int i=0; i<sObj.length();i++){
-                            if (sObj.substring(i,i+1).equals(a)){
-                         	   sObj = sObj.replaceFirst(a,(String) childs.get(j));
-                            }
-                        }
-                        j++;
+                        sObj = replaceParams(sObj, a, childs.get(j).toString());
+                    	j++;
                     }
                     result = sObj;
                 }break;
             }
         } catch (Exception e){
-            return "Error al evaluar el cÃ³digo";
+            return "Error al evaluar la expresión";
         }
         return result;
+    }
+    
+    private String replaceParams(String function, String param, String value) {
+    	String ret="", tmp ="";
+    	
+    	char ch;
+    	
+    	for (int i = 0; i < function.length(); i++) { 
+            ch = function.charAt(i);
+            
+            if (String.valueOf(ch).equals(" ")) {
+            	if (tmp.toLowerCase().equals(param.toLowerCase())) {
+            		ret = ret + value;
+            	}else 
+            	{
+            		ret = ret + tmp;
+            		
+            	}
+            	ret = ret + String.valueOf(ch);
+            	tmp = "";
+            } else {
+            	tmp =tmp + String.valueOf(ch);
+            	if (i ==function.length()-1) {
+            		ret = ret + tmp;
+            		tmp ="";
+            	}
+            }
+        }
+    	return ret;
     }
     
     private String isLogic (String eq){

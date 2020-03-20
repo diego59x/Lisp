@@ -13,6 +13,7 @@ import java.util.ArrayList;
 	
 public class Calculadora implements ICalculadora{
     
+	//realiza una operación dependiendo el operador
 	public double operar (String operador, ArrayList<Double> numeros){
         double resultado = 0;
         // Busca cual es el operando ingresado y llama al metodo que recibe todos los numeros

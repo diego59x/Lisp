@@ -1,10 +1,10 @@
 /**
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    @author DiegoAlvarez 19498
-   @author CesarVinicio 19
+   @author CesarVinicio 16776
    @author Pablo Reyna 19822
    Ultima modificacion 16/03/2020  
-   Clase controlador
+   Clase que maneja el compilador de Lisp
    Interprete de lisp
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  */
@@ -46,6 +46,7 @@ public class Controlador  {
         compilar(info);
         info = "";
     }
+    
     public void opciones(){
         // se inicializa el menu
         boolean menu = true;
@@ -90,30 +91,41 @@ public class Controlador  {
     
     
     protected void compilar(String lispCode){
+    	//se compila una cadena de codigo ingresada 
+    	
+    	//se obtienen los tokens
     	tokenList = tokens.getTokens();
-        int pa=0;
+        
+    	//se valida que venga el mismo numero de parentesis
+    	int pa=0;
         for (int i=0; i< lispCode.length(); i++) {
             if (lispCode.substring(i,i+1).equals("(")) pa++;
         }
 
         int pc = 0;
         for (int i=0; i< lispCode.length(); i++) {
-            if (lispCode.substring(i,i+1).equals("(")) pc++;
+            if (lispCode.substring(i,i+1).equals(")")) pc++;
         }
         
+        //la expresión viene entre parentesis y esta correcta 
         if (lispCode.startsWith("(") && lispCode.endsWith(")") && (pa == pc)){
-            compilado = (String) insert(lispCode, null, 1);
-            if (!evalToken.equals("Error")) {
+            
+        	//inserta una linea de codigo para que se compile
+        	compilado = (String) insert(lispCode, null, 1);
+            
+        	if (!evalToken.equals("Error")) {
+        		//evaluar expresión
             	compilado= lispTree.evalExpression();
             }
-        } else compilado= "Error al compilar el cÃ³digo";
+        	
+        } else compilado= "Error al compilar el codigo";
         // se manda la conclusion de lo realizado a la vista 
         vista.mensaje(compilado);
     }
     
     private Object insert (String lineCode, LispTree root, int op){
+    	//funcion que inserta una linea de codigo para que sea analizada
         try {
-            //Variable nueva, nombre de la funcion en caso de que exista una
             int i = 0;
             boolean next = false, procesar = false, funParams = true;
             LispTree nLispTree = new LispTree(null);
@@ -121,13 +133,18 @@ public class Controlador  {
             evalToken = "";
             String sToken="";
             
+            //se recorre la expresion caracter por caracter
             while (i<lineCode.length()){
                 
+            	//la expresion inicia con parentesis abierto
             	if (lineCode.substring(i,i+1).equals("(")){
                     
+            		//incrementa la variable i cuando son espacios en blanco
             		while (lineCode.substring(i+1,i+2).equals(" ")) {
                         i++;
                     }
+            		
+            		//se valida que la función tenga la forma correcta 
             		
                     if (lineCode.substring(i+1,i+2).equals("(")) {
                     	throw new Exception();
@@ -136,18 +153,20 @@ public class Controlador  {
                     if (isNum(lineCode.substring(i+1, i+2))) {
                     	throw new Exception();
                     }else {
-                        //Verificamos aca si es variable o si es un caractÃ©r sin sentido
                         int i_validacion = i+1;
+                        //se valida que la expresión ingresada sea una palabra reservada
                         String reserved_key = getToken(lineCode,i_validacion);
                         if (!tokenList.contains(reserved_key)) {
                         	throw new Exception();
                         }
                     }
                     
+                    //si esta correcta se cambia la bandera a true para que la expresion se procese
                     procesar = true;
                 }
 
                 if (procesar){
+                	//se inicia el analisis de la expresión
                     if (evalToken.equals("")) {
                         evalToken = getToken(lineCode,i+1);
                         i+=evalToken.length();
@@ -158,6 +177,8 @@ public class Controlador  {
                         }
                         nLispTree = new LispTree(evalToken);
                     }
+                    //se recorre la expresion para ejecutar el codigo lisp, se valida
+                    //si es una operación aritmetica o si es alguna funcionalidad de las palabras reservadas
                     if(next){
                         if (!lineCode.substring(i,i+1).equals(" ")){
                             if (!funParams) {
@@ -237,8 +258,9 @@ public class Controlador  {
                                 }
 
                             }
+                            //cuando se define una funcion nueva
                             if (evalToken.equals("defun")){
-                                Object[] cosas = new Object[3];
+                                Object[] definicionFun = new Object[3];
                                 i++;
                                 int contp = 0;
                                 params = new ArrayList<>();
@@ -296,20 +318,23 @@ public class Controlador  {
                                     funcion+=getFuncParams(lineCode,i);
                                     i+=funcion.length();
                                 }
-                                cosas[0] = contp;
-                                cosas[1]= params;
-                                cosas[2]=funcion;
+                                
+                                //se agrega la funcion nueva para que este disponible
+                                definicionFun[0] = contp;
+                                definicionFun[1]= params;
+                                definicionFun[2]=funcion;
                                 if (!tokens.functionExists(sToken)) {
-                                	tokens.addFunction(sToken,cosas);
+                                	tokens.addFunction(sToken,definicionFun);
                                 }
                             }
+                            //si se esta evaluando una funcion ya ingresada
                             if (tokens.functionExists(evalToken)){
                                 boolean seg = false;
                                 Object[] func = tokens.getFunciton(evalToken);
                                 while (lineCode.substring(i,i+1).equals(" ")) {
                                 	i++;
                                 }
-                                //if (lineCode.substring(i,i+1).equals(")")&& cont2==0) throw new  Exception();
+
                                 if (lineCode.substring(i,i+1).equals("(")){
                                     cont2++;
                                     String par = getFuncParams(lineCode,i);
@@ -355,6 +380,7 @@ public class Controlador  {
         return "Se agrego correctamente";
     }
 
+    //obtiene los parametros de una funcion definida por el usuario
     private String getFuncParams (String lispCode, int contfp){
         String par = lispCode.substring(contfp,contfp+1);
         contfp++;
@@ -367,7 +393,8 @@ public class Controlador  {
         }
         return par;
     }
-
+    
+    //obtiene un token del codigo analizado
     private String getToken (String lispCode, int contador){
         String t = "";
         while (!lispCode.substring(contador,contador+1).equals(" ")&& !lispCode.substring(contador,contador+1).equals(")")){
@@ -377,7 +404,8 @@ public class Controlador  {
         t = t.toLowerCase();
         return t;
     }
-
+    
+    //funcion para determinar si es numero
     public boolean isNum(String token) {
         try {
             double n = Integer.parseInt(token);
@@ -387,13 +415,4 @@ public class Controlador  {
         }
     }
 
-    private int coasntarespecial(String string, String anything, String something, int start){
-        int contador = 0;
-        boolean bandera = true;
-        for (int i=start; i< string.length() && bandera;  i++) {
-            if (string.substring(i,i+1).equals(anything)) contador++;
-            if (string.substring(i,i+1).equals(something)) bandera = false;
-        }
-        return contador;
-    }
 }
